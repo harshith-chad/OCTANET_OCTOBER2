@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Custom Landing Page</title>
+    <link rel="stylesheet" href="h.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <nav id="navbar">
+            <div class="logo">
+                <a href="#home" style="text-decoration: none;"><h2>Culinary Canopy</h2></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="#order">Order</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <section id="home" class="section home-section">
+        <canvas id="dotsCanvas"></canvas>
+        <div class="content-center">
+            <h1>Welcome to My Custom Website</h1>
+            <p>Explore amazing features and get started easily!</p>
+            <a href="#features" class="btn-primary">Explore Now</a>
+        </div>
+    </section>
+
+        <!-- Features Section -->
+        <section id="features" class="section features-section">
+            <h2>Our Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>Feature A</h3>
+                    <p>Benefit from the amazing tools and resources we provide.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Feature B</h3>
+                    <p>Our platform ensures high performance and reliability.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Feature C</h3>
+                    <p>Get 24/7 customer support to assist you with any issues.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <h2>Contact Us</h2>
+            <div class="contact-form-container">
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Write your message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Order Section -->
+        <section id="order" class="section order-section">
+            <h2>Order Now</h2>
+            <p>Ready to get started? Place your order today!</p>
+            <a href="#home" class="btn-primary">Order Now</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 My Custom Website. All rights reserved.</p>
+    </footer>
+    
+    <script>
+// Initialize basic setup
+let scene, camera, renderer, particles, particleSystem;
+
+function init() {
+    const canvas = document.getElementById('dotsCanvas');
+    scene = new THREE.Scene();
+    
+    // Create camera
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50;
+
+    // Create renderer
+    renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Particle Geometry
+    const particleCount = 1000; // Number of particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const positions = [];
+
+    for (let i = 0; i < particleCount; i++) {
+        const x = (Math.random() - 0.5) * 100;
+        const y = (Math.random() - 0.5) * 100;
+        const z = (Math.random() - 0.5) * 100;
+        positions.push(x, y, z);
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+    // Particle Material
+    const particlesMaterial = new THREE.PointsMaterial({
+        color: 0x000000, // Black color for dots
+        size: 0.15,       // Tiny dots
+    });
+
+    // Create the particle system
+    particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particleSystem);
+
+    // Resize event
+    window.addEventListener('resize', onWindowResize, false);
+    animate();
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the particle system for some movement
+    particleSystem.rotation.y += 0.002;
+    
+    renderer.render(scene, camera);
+}
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// Start animation
+init();
+
+
+    </script>
+</body>
+</html>
